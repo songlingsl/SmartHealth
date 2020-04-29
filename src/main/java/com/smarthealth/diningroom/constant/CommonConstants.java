@@ -4,9 +4,9 @@ public interface CommonConstants {
     /**
      * 成功标记
      */
-    Integer SUCCESS = 0;
+    boolean SUCCESS = true;
     /**
      * 失败标记
      */
-    Integer FAIL = 1;
+    boolean FAIL = false;
 }

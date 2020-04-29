@@ -1,12 +1,13 @@
 package com.smarthealth.diningroom.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -26,7 +27,7 @@ public class BasicUser implements Serializable {
     /**
      * 用户id
      */
-    @TableId(value = "user_id", type = IdType.AUTO)
+    @TableId
     private Long userId;
 
     /**
@@ -89,5 +90,10 @@ public class BasicUser implements Serializable {
      */
     private Integer birthday;
 
+    /**
+     * 小程序用来换取openid的码
+     */
+    @TableField(exist = false)
+    private String userCode;
 
 }

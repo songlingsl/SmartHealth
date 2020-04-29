@@ -3,7 +3,8 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3307/test?useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3307/mytest?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
     username: root
     password: root
     hikari:        #spring自带连接池
@@ -15,13 +16,23 @@ spring:
       max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
       connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
       connection-test-query: SELECT 1
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: assign_id #自3.3.0开始,entity的id默认使用雪花算法+UUID
 logging:  #默认都是logback需要参数
   level:
     root: info  #开发debug
-    com.baomidou.mybatisplus.samples: debug
   file:
     max-size: 50MB #每50m 生成一个新日志
     path: ./logs
   pattern:      #用%replace(%caller{1}，控制台显示在开发时更方便,
       console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level - %msg -[%replace(%caller{1}){'\t|Caller.{1}0| at|\r\n', ''}]%n"
       file: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level- %msg -%logger%n" #显示行数 方法名会影响性能，caller也会影响，直接用logger
+wechat:
+  appId: ddd
+  secret: fff
+

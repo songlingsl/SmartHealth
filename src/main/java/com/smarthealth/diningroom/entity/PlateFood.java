@@ -1,5 +1,6 @@
 package com.smarthealth.diningroom.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,6 +26,7 @@ public class PlateFood implements Serializable {
     /**
      * 餐盘与食物关系id
      */
+    @TableId
     private Long plateFoodId;
 
     /**

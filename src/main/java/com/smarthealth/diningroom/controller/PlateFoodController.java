@@ -2,8 +2,7 @@ package com.smarthealth.diningroom.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Controller;
  * @author songling
  * @since 2020-04-29
  */
-@Controller
+@RestController
 @RequestMapping("/plateFood")
 public class PlateFoodController {
 
