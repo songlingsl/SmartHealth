@@ -212,7 +212,4 @@ class SmartHealthApplicationTests {
         list.forEach(SmartHealthApplicationTests::printmy);
     }
 
-
-
-
 }
