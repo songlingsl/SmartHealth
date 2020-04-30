@@ -1,12 +1,12 @@
 server:
-  port: 8000
+  port: 9090
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3307/mytest?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://114.67.233.191:3306/healthy_rest?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
     username: root
-    password: root
+    password: slroot
     hikari:        #spring自带连接池
       pool-name: Retail_HikariCP
       minimum-idle: 5 #最小空闲连接数量
@@ -33,6 +33,6 @@ logging:  #默认都是logback需要参数
       console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level - %msg -[%replace(%caller{1}){'\t|Caller.{1}0| at|\r\n', ''}]%n"
       file: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level- %msg -%logger%n" #显示行数 方法名会影响性能，caller也会影响，直接用logger
 wechat:
-  appId: ddd
-  secret: fff
+  appId: wx0722f8cf877f7db2
+  secret: 352fa9156eba19d882470c51e16d7cac
 

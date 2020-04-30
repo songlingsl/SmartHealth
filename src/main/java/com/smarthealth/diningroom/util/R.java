@@ -30,18 +30,18 @@ public class R<T> implements Serializable {
 
 	@Getter
 	@Setter
-	private T data;
+	private T result;
 
 	public static <T> R<T> ok() {
 		return restResult(null, CommonConstants.SUCCESS, null);
 	}
 
-	public static <T> R<T> ok(T data) {
-		return restResult(data, CommonConstants.SUCCESS, null);
+	public static <T> R<T> ok(T result) {
+		return restResult(result, CommonConstants.SUCCESS, null);
 	}
 
-	public static <T> R<T> ok(T data, String msg) {
-		return restResult(data, CommonConstants.SUCCESS, msg);
+	public static <T> R<T> ok(T result, String msg) {
+		return restResult(result, CommonConstants.SUCCESS, msg);
 	}
 
 	public static <T> R<T> failed() {
@@ -52,18 +52,18 @@ public class R<T> implements Serializable {
 		return restResult(null, CommonConstants.FAIL, msg);
 	}
 
-	public static <T> R<T> failed(T data) {
-		return restResult(data, CommonConstants.FAIL, null);
+	public static <T> R<T> failed(T result) {
+		return restResult(result, CommonConstants.FAIL, null);
 	}
 
-	public static <T> R<T> failed(T data, String msg) {
-		return restResult(data, CommonConstants.FAIL, msg);
+	public static <T> R<T> failed(T result, String msg) {
+		return restResult(result, CommonConstants.FAIL, msg);
 	}
 
-	private static <T> R<T> restResult(T data, boolean success, String msg) {
+	private static <T> R<T> restResult(T result, boolean success, String msg) {
 		R<T> apiResult = new R<>();
 		apiResult.setSuccess(success);
-		apiResult.setData(data);
+		apiResult.setResult(result);
 		apiResult.setMsg(msg);
 		return apiResult;
 	}

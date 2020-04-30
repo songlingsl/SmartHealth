@@ -1,9 +1,13 @@
 package com.smarthealth.diningroom.controller;
 
 
-import com.smarthealth.diningroom.conf.WechatConfig;
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.smarthealth.diningroom.entity.BasicUser;
+import com.smarthealth.diningroom.service.BasicUserService;
 import com.smarthealth.diningroom.util.R;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +28,30 @@ import javax.validation.Valid;
 @RequestMapping("/basicUser")
 public class BasicUserController {
     @Resource
-    private WechatConfig wechatConfig;
+    private WxMaService wxMaService;
+
+    @Resource
+    private BasicUserService basicUserService;
 
     @PostMapping("/getOrSaveUser")
     public R getOrSaveUser(@Valid @RequestBody BasicUser user){
-
-
-       return R.ok("哈哈");
+        String openid="";
+        try {
+            WxMaJscode2SessionResult sessionResult=wxMaService.getUserService().getSessionInfo(user.getUserCode());
+            openid=sessionResult.getOpenid();
+        } catch (WxErrorException e) {
+            return R.failed("获取用户openId出错");
+        }
+        BasicUser queryUser=new BasicUser();
+        queryUser.setOpenId(openid);
+        QueryWrapper query = new QueryWrapper(queryUser);
+        queryUser= basicUserService.getOne(query);
+        if(queryUser==null){
+            user.setOpenId(openid);
+            basicUserService.save(user);
+            queryUser=user;
+        }
+        return R.ok(queryUser);
     }
 
 }
