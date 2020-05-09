@@ -9,4 +9,16 @@ public interface CommonConstants {
      * 失败标记
      */
     boolean FAIL = false;
+    /**
+     * 早
+     */
+    int MORNING = 0;
+    /**
+     * 中
+     */
+    int NOON=1;
+    /**
+     * 晚
+     */
+    int NIGHT=2;
 }

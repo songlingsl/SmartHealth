@@ -7,8 +7,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.smarthealth.diningroom.entity.House;
 import com.smarthealth.diningroom.entity.Songling;
 import com.smarthealth.diningroom.mapper.HouseMapper;
+import com.smarthealth.diningroom.mapper.MealMapper;
+import com.smarthealth.diningroom.mapper.PlateMapper;
 import com.smarthealth.diningroom.mapper.SonglingMapper;
+import com.smarthealth.diningroom.service.BasicUserService;
 import com.smarthealth.diningroom.service.HouseService;
+import com.smarthealth.diningroom.service.MealService;
 import com.smarthealth.diningroom.service.SonglingService;
 import com.smarthealth.diningroom.vo.SonglingVO;
 import org.junit.jupiter.api.Test;
@@ -36,6 +40,18 @@ class SmartHealthApplicationTests {
 
     @Autowired
     private HouseMapper houseMapper;//后期要用service实现
+
+    @Autowired
+    private MealMapper mealMapper;//
+
+    @Autowired
+    private PlateMapper plateMapper;//
+    @Autowired
+    private MealService mealService;//
+
+    @Autowired
+    private BasicUserService basicUserService;
+
 
     @Test
     void contextLoads() {
@@ -211,5 +227,18 @@ class SmartHealthApplicationTests {
         List<Songling> list = userPage.getRecords();
         list.forEach(SmartHealthApplicationTests::printmy);
     }
+    @Test
+    public void transactionalTest() {//先插入 再插入看是否回滚
+//        Meal meal=new Meal();
+//        meal.setType(2);
+//        mealMapper.insert(meal);
+//        Plate plate=new Plate();
+//        plate.setStatus(3);
+//        plateMapper.insert(plate);
+        mealService.transactionalTest();
+    }
+
+
+
 
 }

@@ -1,11 +1,13 @@
 package com.smarthealth.diningroom.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author songling
- * @since 2020-04-29
+ * @since 2020-05-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,7 +28,7 @@ public class Meal implements Serializable {
     /**
      * 餐id
      */
-    @TableId
+    @TableId(value = "meal_id", type = IdType.AUTO)
     private Long mealId;
 
     /**
@@ -47,7 +49,12 @@ public class Meal implements Serializable {
     /**
      * 餐类别？早中晚
      */
-    private Integer type;
+    private Integer mealType;
+
+    /**
+     * 就餐日（与餐盘id，就餐类型一起与用户关联）
+     */
+    private LocalDate mealDay;
 
 
 }

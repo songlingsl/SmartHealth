@@ -16,6 +16,12 @@ spring:
       max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
       connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
       connection-test-query: SELECT 1
+#  redis:
+#    host: localhost
+#    lettuce:
+#          pool:
+#            max-active: 16   #默认是不使用连接池的，只有配置 redis.lettuce.pool下的属性的时候才可以使用到redis连接池
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   configuration:
@@ -23,6 +29,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: assign_id #自3.3.0开始,entity的id默认使用雪花算法+UUID
+
 logging:  #默认都是logback需要参数
   level:
     root: info  #开发debug
@@ -33,6 +40,6 @@ logging:  #默认都是logback需要参数
       console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level - %msg -[%replace(%caller{1}){'\t|Caller.{1}0| at|\r\n', ''}]%n"
       file: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level- %msg -%logger%n" #显示行数 方法名会影响性能，caller也会影响，直接用logger
 wechat:
-  appId: wx0722f8cf877f7db2
-  secret: 352fa9156eba19d882470c51e16d7cac
+  appId: wxba24429084daaaf4
+  secret: 1eac0f6f6d384922417354107868ff05
 

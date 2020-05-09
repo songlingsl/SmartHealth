@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-04-29
  */
 public interface MealService extends IService<Meal> {
+    public void transactionalTest();
 
 }
