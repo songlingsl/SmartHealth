@@ -64,8 +64,8 @@ class SmartTestControllerTests {
     @Test
     public  void addDishForUser() throws InterruptedException {
         RecivedDishVO vo=new RecivedDishVO();
-        vo.setSid(12L);
-        vo.setWeight(333);
+        vo.setSid(164L);
+        vo.setWeight(555);
         System.out.println(api.addDishForUser(vo));
         Thread.sleep(1000000);
 

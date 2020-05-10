@@ -14,7 +14,7 @@ public class DelayQueueManager implements CommandLineRunner {
         new Thread(()->{
             while (true) {
                 try {
-                    System.out.println("延迟人物"+ delayQueue.take());
+                    System.out.println("延迟任务"+ delayQueue.take());
                 } catch (InterruptedException e) {
                     continue;
                 }
