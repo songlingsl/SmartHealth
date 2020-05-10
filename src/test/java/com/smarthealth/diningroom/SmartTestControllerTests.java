@@ -5,6 +5,7 @@ import com.smarthealth.diningroom.controller.BasicUserController;
 import com.smarthealth.diningroom.entity.BasicUser;
 import com.smarthealth.diningroom.entity.Meal;
 import com.smarthealth.diningroom.util.DelayQueueManager;
+import com.smarthealth.diningroom.vo.RecivedDishVO;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,17 +54,20 @@ class SmartTestControllerTests {
     @Test
     public  void testdelay() throws InterruptedException {
         System.out.println("开始");
-        delayQueueManager.put(55);
+        delayQueueManager.put(55L);
         Thread.sleep(5000L);
-        delayQueueManager.put(55);
+        delayQueueManager.put(55L);
         System.out.println("15秒后");
         Thread.sleep(100000000L);
     }
 
     @Test
     public  void addDishForUser() throws InterruptedException {
-
-        System.out.println(api.addDishForUser(null));
+        RecivedDishVO vo=new RecivedDishVO();
+        vo.setSid(12L);
+        vo.setWeight(333);
+        System.out.println(api.addDishForUser(vo));
+        Thread.sleep(1000000);
 
     }
 

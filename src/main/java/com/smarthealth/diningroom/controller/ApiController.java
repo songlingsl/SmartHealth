@@ -1,15 +1,16 @@
 package com.smarthealth.diningroom.controller;
 
+import com.smarthealth.diningroom.entity.PlateFood;
+import com.smarthealth.diningroom.service.PlateFoodService;
+import com.smarthealth.diningroom.util.CommonUtil;
 import com.smarthealth.diningroom.util.DelayQueueManager;
 import com.smarthealth.diningroom.vo.RecivedDishVO;
 import com.smarthealth.diningroom.vo.ReturnDishResultVO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 /**
  * <p>
@@ -24,6 +25,9 @@ import javax.validation.Valid;
 public class ApiController {
     @Resource
     DelayQueueManager delayQueueManager;
+
+    @Resource
+    PlateFoodService plateFoodService;
     /**
      * 为一个用户增加菜肴
      * @param recivedDishVO 返回本餐盘所有摄入量
@@ -31,10 +35,27 @@ public class ApiController {
      */
     @PostMapping("/addDishForUser")
     public ReturnDishResultVO addDishForUser(@Valid @RequestBody RecivedDishVO recivedDishVO ){
-        Integer plateId=123;
+        Long plateId=123L;//recivedDishVO中有盘子id
         delayQueueManager.put(plateId);//发订阅通知
-        //QueryWrapper query = new QueryWrapper(meal);
-        ReturnDishResultVO vo=new ReturnDishResultVO();
+
+        PlateFood plateFood=new PlateFood();
+        plateFood.setPlateId(plateId);
+        plateFood.setFoodId(recivedDishVO.getSid());
+        plateFood.setWeight(recivedDishVO.getWeight());
+        plateFood.setMealDay(LocalDate.now());
+        plateFood.setMealType(CommonUtil.getDealType());
+        plateFoodService.save(plateFood);//保存本次菜品重量
+
+        ReturnDishResultVO vo=new ReturnDishResultVO();//查询本餐盘所有菜品摄入量之和，并返回
         return vo;
     }
+
+    @GetMapping("/testCommonError")
+    public String testCommonError(){
+        ReturnDishResultVO vo=null;
+        vo.getCode();
+        return "哈哈";
+
+    }
+
 }

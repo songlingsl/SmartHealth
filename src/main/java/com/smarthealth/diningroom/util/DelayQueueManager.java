@@ -23,7 +23,7 @@ public class DelayQueueManager implements CommandLineRunner {
 
     }
 
-    public void put(Integer plateId) {
+    public void put(Long plateId) {
         DelayedElement element = new DelayedElement(10000,plateId);
         if(delayQueue.contains(element)){
             delayQueue.remove(element);

@@ -6,10 +6,10 @@ import java.util.concurrent.TimeUnit;
 public class DelayedElement implements Delayed {
     private final long delay; //延迟时间
     private final long expire;  //到期时间
-    private final Integer plateId;   //餐盘id
+    private final Long plateId;   //餐盘id
     private final long now; //创建时间
 
-    public DelayedElement(long delay, Integer plateId) {
+    public DelayedElement(long delay, Long plateId) {
         this.delay = delay;
         this.plateId = plateId;
         expire = System.currentTimeMillis() + delay;    //到期时间 = 当前时间+延迟时间

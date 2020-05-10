@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author songling
- * @since 2020-04-29
+ * @since 2020-05-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -50,9 +51,14 @@ public class PlateFood implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 这个ID是后台触发后，更新进去的
+     * 早中晚餐
      */
-    private Long mealId;
+    private Integer mealType;
+
+    /**
+     * 就餐日（与餐盘id，就餐类型一起与用户关联）
+     */
+    private LocalDate mealDay;
 
 
 }
