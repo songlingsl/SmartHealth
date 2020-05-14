@@ -39,5 +39,5 @@ public class Plate implements Serializable {
      */
     private Integer status;
 
-
+    private String plateUrl;
 }

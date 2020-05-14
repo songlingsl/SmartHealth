@@ -49,7 +49,10 @@ public class ApiController {
      */
     @PostMapping("/addDishForUser")
     public ReturnDishResultVO addDishForUser(@Valid @RequestBody RecivedDishVO recivedDishVO) {
-        Long plateId = 123L;//recivedDishVO中有盘子id
+        String code=recivedDishVO.getCode();//code中包含plateurl
+        String plateUrl= code.split("/a/")[1];
+        Map<String, Long> plateMap = dictManager.getPlateMap();
+        Long plateId=plateMap.get(plateUrl);
         delayQueueManager.put(plateId);//发订阅通知
 
         PlateFood plateFood = new PlateFood();
@@ -65,7 +68,7 @@ public class ApiController {
         conditions.setMealDay(LocalDate.now());
         conditions.setPlateId(plateId);
         QueryWrapper query = new QueryWrapper(conditions);
-        List<PlateFood> PlateFoodList = plateFoodService.list(query);
+        List<PlateFood> PlateFoodList = plateFoodService.list(query);//本餐盘摄入量
         return getIntake(PlateFoodList);
     }
 

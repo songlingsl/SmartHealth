@@ -6,23 +6,29 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.smarthealth.diningroom.entity.BasicUser;
+import com.smarthealth.diningroom.entity.Dishes;
 import com.smarthealth.diningroom.entity.Meal;
 import com.smarthealth.diningroom.service.BasicUserService;
 import com.smarthealth.diningroom.service.MealService;
 import com.smarthealth.diningroom.util.CommonUtil;
+import com.smarthealth.diningroom.util.DictManager;
 import com.smarthealth.diningroom.util.R;
+import com.smarthealth.diningroom.vo.IntakeVO;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.ansj.domain.Result;
+import org.ansj.domain.Term;
+import org.ansj.splitWord.analysis.DicAnalysis;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -32,6 +38,7 @@ import java.util.List;
  * @author songling
  * @since 2020-04-29
  */
+@Slf4j
 @RestController
 @RequestMapping("/basicUser")
 public class BasicUserController {
@@ -44,7 +51,8 @@ public class BasicUserController {
 
     @Resource
     private MealService mealService;
-
+    @Resource
+    DictManager dictManager;
     /**
      * 先根据微信codeid拿到openid，根据openid从库中查找，没有的话入库
      * @param user
@@ -122,11 +130,46 @@ public class BasicUserController {
         if(mealService.count(query)<=0){//防止扫多次
            mealService.saveOrUpdate(meal);
        }
-
         return R.ok();
     }
 
-   
+    @SneakyThrows
+    @PostMapping("/customIntake")
+    public R customIntake(@RequestParam("voiceStr") String voiceStr){
+        Map<String, Dishes> dishesNameMap=dictManager.getDishesNameMap();
+         List<IntakeVO> list=new ArrayList();
+        String[] voiceStrs=voiceStr.split("，");
+        for(String voice:voiceStrs){
+            Result parse =DicAnalysis.parse(voice);
+            String dishName="";
+            String type="";
+            for (Term term : parse) {
+                log.info("语音段："+term.getName()+"   分词型 "+term.getNatureStr());
+                if(term.getNatureStr().equals("mq")){
+                    type=term.getName();
+                }
+                if(term.getNatureStr().equals("userDefine")){
+                    dishName=term.getName();
+                }
+            }
+            if(!StringUtils.isEmpty(dishName)&&!StringUtils.isEmpty(type)){
+                Dishes dish=dishesNameMap.get(dishName);
+                if(dish==null){
+                    continue;
+                }
+                IntakeVO vo=new IntakeVO();
+                vo.setDishName(dishName);
+                vo.setCalcium(dish.getEnergyCal().intValue());
+                vo.setCarbohydrates(dish.getCarbohy().intValue());
+                vo.setEnergy(dish.getEnergyCal().intValue());
+                vo.setFats(dish.getFat().intValue());
+                vo.setProteins(dish.getProtein().intValue());
+                list.add(vo);
+            }
+
+        }
+        return R.ok(list);
+    }
 
 }
 

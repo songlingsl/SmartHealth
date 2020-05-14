@@ -12,4 +12,6 @@ public class IntakeVO implements Serializable {
     private Integer proteins;
     private Integer carbohydrates;
     private Integer calcium;
+    private String dishName;//语音识别后使用
+
 }
