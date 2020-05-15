@@ -8,6 +8,7 @@ import org.ansj.domain.Result;
 import org.ansj.domain.Term;
 import org.ansj.library.DicLibrary;
 import org.ansj.splitWord.analysis.DicAnalysis;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -69,16 +70,20 @@ public class TestMeth {
 
     }
     @Test
-    public void decode() throws Exception {
-//         String str="https://mp.weixin.qq.com/a/~~aLNpFnXvyXU~4mh4z85WJTJCs1-cPzI8MA~~";
-//        String result = new java.net.URI("~~aLNpFnXvyXU~4mh4z85WJTJCs1-cPzI8MA~~").getPath();
-//
-//
-//        BASE64Decoder decoder = new BASE64Decoder();
-//        System.out.println(new String(decoder.decodeBuffer(str), "UTF-8"));
+    public void testSplit() throws Exception {
+        String str="110克";
+        String regEx="克";
+//        System.out.println(StringUtils.split(str,regEx).length);
+//        System.out.println(StringUtils.splitByWholeSeparator(str,regEx).length);
+        //String[] re=StringUtils.splitByWholeSeparator(str,regEx);
+       // String[] re= str.split(regEx);
+        StringUtils.substringAfter(str,"\\D");
+        System.out.println(StringUtils.substringBefore(str,regEx));
+        StringUtils.contains(str,"克");
+        StringUtils.contains(str,"斤");
 
 
-        //System.out.println(URLDecoder.decode("https://mp.weixin.qq.com/a/~~aLNpFnXvyXU~4mh4z85WJTJCs1-cPzI8MA~~", "UTF-8"));
+
     }
 
 

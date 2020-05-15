@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,37 +134,82 @@ public class BasicUserController {
         return R.ok();
     }
 
+
+    private  String dealNumber(String voiceStr){
+        voiceStr=voiceStr.replaceAll("一","1").
+                replaceAll("二","2").
+                replaceAll("三","3").
+                replaceAll("四","4").
+                replaceAll("五","5").
+                replaceAll("六","6").
+                replaceAll("七","7").
+                replaceAll("八","8").
+                replaceAll("九","9").
+                replaceAll("十","10").
+                replaceAll("斤半","斤0.5斤").
+                replaceAll("两半","两0.5两").
+                replaceAll("两斤","2斤").
+                replaceAll("半","0.5");
+        return voiceStr;
+    }
     @SneakyThrows
     @PostMapping("/customIntake")
     public R customIntake(@RequestParam("voiceStr") String voiceStr){
+        voiceStr=dealNumber(voiceStr);
         Map<String, Dishes> dishesNameMap=dictManager.getDishesNameMap();
          List<IntakeVO> list=new ArrayList();
         String[] voiceStrs=voiceStr.split("，");
         for(String voice:voiceStrs){
             Result parse =DicAnalysis.parse(voice);
             String dishName="";
-            String type="";
+            String weightUnit="";//单位
+            BigDecimal weight=new BigDecimal(0);
+            String preValue="0";
             for (Term term : parse) {
-                log.info("语音段："+term.getName()+"   分词型 "+term.getNatureStr());
-                if(term.getNatureStr().equals("mq")){
-                    type=term.getName();
+                if(term.getNatureStr().equals("unit")){
+                    weightUnit=term.getName();
+                    if(weightUnit.equals("克")){
+                        BigDecimal bigv=new BigDecimal(preValue);
+                        weight=weight.add(bigv);
+                    }
+                    if(weightUnit.equals("斤")){
+//                        BigDecimal bigv= numberMap.get(preValue);
+//                        if(bigv==null){
+//                            bigv=new BigDecimal(preValue);
+//                        }
+//                        weight=weight.add(bigv.multiply(new BigDecimal(500)));
+                        BigDecimal bigv=new BigDecimal(preValue);
+                        weight=weight.add(bigv.multiply(new BigDecimal(500)));
+                    }
+                    if(weightUnit.equals("两")){
+//                        BigDecimal bigv= numberMap.get(preValue);
+//                        if(bigv==null){
+//                            bigv=new BigDecimal(preValue);
+//                        }
+//                        weight= weight.add(bigv.multiply(new BigDecimal(50)));
+                        BigDecimal bigv=new BigDecimal(preValue);
+                        weight=weight.add(bigv.multiply(new BigDecimal(50)));
+                    }
                 }
                 if(term.getNatureStr().equals("userDefine")){
                     dishName=term.getName();
                 }
+                preValue=term.getName();
             }
-            if(!StringUtils.isEmpty(dishName)&&!StringUtils.isEmpty(type)){
+            if(!StringUtils.isEmpty(dishName)&&weight.intValue()>0){
+                log.info("语音"+voice+"==》："+weight.intValue()+"克");
+                //String weightStr=weightUnit.split();
                 Dishes dish=dishesNameMap.get(dishName);
                 if(dish==null){
                     continue;
                 }
                 IntakeVO vo=new IntakeVO();
                 vo.setDishName(dishName);
-                vo.setCalcium(dish.getEnergyCal().intValue());
-                vo.setCarbohydrates(dish.getCarbohy().intValue());
-                vo.setEnergy(dish.getEnergyCal().intValue());
-                vo.setFats(dish.getFat().intValue());
-                vo.setProteins(dish.getProtein().intValue());
+                vo.setCalcium(dish.getElementCa().multiply(weight).intValue());
+                vo.setCarbohydrates(dish.getCarbohy().multiply(weight).intValue());
+                vo.setEnergy(dish.getEnergyCal().multiply(weight).intValue());
+                vo.setFats(dish.getFat().multiply(weight).intValue());
+                vo.setProteins(dish.getProtein().multiply(weight).intValue());
                 list.add(vo);
             }
 

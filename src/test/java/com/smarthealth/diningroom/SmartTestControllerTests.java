@@ -84,9 +84,15 @@ class SmartTestControllerTests {
 
     }
     @Test
-    public  void WXURL(){
-
-
+    public  void customIntake(){
+        basicUserController.customIntake("一斤二两米饭");
+        basicUserController.customIntake("一斤三两米饭");
+        basicUserController.customIntake("半斤米饭");
+        basicUserController.customIntake("米饭半斤，米饭一斤三两");
+        basicUserController.customIntake("米饭200克");
+        basicUserController.customIntake("两斤米饭");
+        basicUserController.customIntake("两斤半米饭");
+        basicUserController.customIntake("米饭三斤半");
     }
 
     @Test
