@@ -11,6 +11,7 @@ import com.smarthealth.diningroom.entity.Plate;
 import com.smarthealth.diningroom.service.PlateService;
 import com.smarthealth.diningroom.util.DelayQueueManager;
 import com.smarthealth.diningroom.vo.RecivedDishVO;
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ class SmartTestControllerTests {
 
     @Autowired
     private PlateService plateService;//
+    @Autowired
+    WxMpService wxMpService;
     @Test
    public  void testConfig(){
         BasicUser user=new BasicUser();

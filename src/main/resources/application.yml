@@ -42,4 +42,8 @@ logging:  #默认都是logback需要参数
 wechat:
   appId: wxba24429084daaaf4
   secret: 1eac0f6f6d384922417354107868ff05
+wx:
+  mp:
+    appId: wx7230b2bb6fe1aefc
+    secret: 56a1d0539690883741dbe84240793c3f
 

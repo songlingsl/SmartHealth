@@ -1,9 +1,11 @@
 package com.smarthealth.diningroom.util;
 
 import com.smarthealth.diningroom.entity.Dishes;
+import com.smarthealth.diningroom.entity.FoodsSimple;
 import com.smarthealth.diningroom.entity.NutrientIntake;
 import com.smarthealth.diningroom.entity.Plate;
 import com.smarthealth.diningroom.mapper.DishesMapper;
+import com.smarthealth.diningroom.mapper.FoodsSimpleMapper;
 import com.smarthealth.diningroom.mapper.NutrientIntakeMapper;
 import com.smarthealth.diningroom.mapper.PlateMapper;
 import lombok.Data;
@@ -34,6 +36,9 @@ public class DictManager implements CommandLineRunner {
     PlateMapper plateMapper;
     @Resource
     NutrientIntakeMapper intakeMapper;
+    @Resource
+    FoodsSimpleMapper foodsSimpleMapper;
+
     @Override
     public void run(String... args) throws Exception {
         DicLibrary.insert(DicLibrary.DEFAULT, "两","unit",1);
@@ -53,7 +58,7 @@ public class DictManager implements CommandLineRunner {
             dishesNameMap.put(f.getName(),f);
             DicLibrary.insert(DicLibrary.DEFAULT, f.getName());
         }
-        log.info("食物字典表初始化完毕");
+        log.info("菜品食物字典表初始化完毕");
         List<NutrientIntake> intakeList =intakeMapper.selectList(null);
         for(NutrientIntake intake:intakeList){
             String ageGroup=intake.getAgeGroup();
@@ -70,5 +75,26 @@ public class DictManager implements CommandLineRunner {
             plateMap.put(p.getPlateUrl(),p.getPlateId());
         }
         log.info("盘子url对应字典表初始化完毕");
+
+
+        List<FoodsSimple>  foodsList =foodsSimpleMapper.selectList(null);
+        for(FoodsSimple f:foodsList){
+            String name=f.getName();
+            if(name.contains("，")||name.contains("、")){
+               continue;//不把多名字食物放入
+            }
+            //转每克
+            Dishes d=new Dishes();
+            d.setProtein(f.getProtein().divide(new BigDecimal(100)));
+            d.setFat(f.getFat().divide(new BigDecimal(100)));
+            d.setCarbohy(f.getCarbohy().divide(new BigDecimal(100)));
+            System.out.println(name+f.getElementCa());
+            d.setElementCa(f.getElementCa().divide(new BigDecimal(100)));
+
+            d.setEnergyCal(f.getEnergyCal().divide(new BigDecimal(100)));
+            dishesNameMap.put(f.getName(),d);
+            DicLibrary.insert(DicLibrary.DEFAULT, f.getName());
+        }
+        log.info("简单食物字典表初始化完毕");
     }
 }
