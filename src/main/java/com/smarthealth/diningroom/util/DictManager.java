@@ -62,7 +62,7 @@ public class DictManager implements CommandLineRunner {
         List<NutrientIntake> intakeList =intakeMapper.selectList(null);
         for(NutrientIntake intake:intakeList){
             String ageGroup=intake.getAgeGroup();
-            String  gender= intake.getGender();
+            Integer  gender= intake.getGender();
             String strength=intake.getStrength();
             String key=ageGroup+"_"+gender+"_"+strength;
             intakeMap.put(key,intake);

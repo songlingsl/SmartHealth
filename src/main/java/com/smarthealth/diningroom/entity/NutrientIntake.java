@@ -48,7 +48,7 @@ public class NutrientIntake implements Serializable {
     /**
      * 性别
      */
-    private String gender;
+    private Integer gender;
 
     /**
      * 体重/kg

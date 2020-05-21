@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.smarthealth.diningroom.entity.BasicUser;
 import com.smarthealth.diningroom.entity.Dishes;
 import com.smarthealth.diningroom.entity.Meal;
+import com.smarthealth.diningroom.entity.NutrientIntake;
 import com.smarthealth.diningroom.service.BasicUserService;
 import com.smarthealth.diningroom.service.MealService;
 import com.smarthealth.diningroom.util.CommonUtil;
@@ -62,8 +63,9 @@ public class BasicUserController {
     @PostMapping("/getOrSaveUser")
     public R getOrSaveUser(@Valid @RequestBody BasicUser user){
         String openid="";
+        WxMaJscode2SessionResult sessionResult=null;
         try {
-            WxMaJscode2SessionResult sessionResult=wxMaService.getUserService().getSessionInfo(user.getUserCode());
+            sessionResult=wxMaService.getUserService().getSessionInfo(user.getUserCode());
             openid=sessionResult.getOpenid();
         } catch (WxErrorException e) {
             return R.failed("获取用户openId出错");
@@ -74,21 +76,33 @@ public class BasicUserController {
         queryUser= basicUserService.getOne(query);
         if(queryUser==null){
             user.setOpenId(openid);
+            user.setAgeGroup("18-44");//默认
+            user.setStrength("中");
+            if(user.getGender().equals(2)){
+                user.setGender(1);
+            }
             basicUserService.save(user);
             queryUser=user;
         }
+        String key=user.getAgeGroup()+"_"+user.getGender()+"_"+user.getStrength();
+        Map<String, NutrientIntake>  intakeMap=dictManager.getIntakeMap();
+        queryUser.setStandardIntake(intakeMap.get(key));
         return R.ok(queryUser);
     }
+
 
     /**
      * 根据用户id更新个人的性别，年龄（出生年），身高，体重，工作强度（轻，中，重）
      * @param user
-     * @return
+     * @return 标准摄入
      */
     @PostMapping("/updateUser")
     public R updateUser(@Valid @RequestBody BasicUser user){
         basicUserService.updateById(user);
-        return R.ok();
+        String key=user.getAgeGroup()+"_"+user.getGender()+"_"+user.getStrength();
+        Map<String, NutrientIntake>  intakeMap=dictManager.getIntakeMap();
+        NutrientIntake  intake=intakeMap.get(key);
+        return R.ok(intake);
     }
 
     /**

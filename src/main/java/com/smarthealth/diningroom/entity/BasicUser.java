@@ -38,7 +38,7 @@ public class BasicUser implements Serializable {
     /**
      * 性别
      */
-    private Boolean gender;
+    private Integer gender;
 
     /**
      * 省
@@ -89,11 +89,27 @@ public class BasicUser implements Serializable {
      * 出生年
      */
     private Integer birthday;
+    /**
+     * 年龄段
+     */
+    private String ageGroup;
+
+    /**
+     * 工作强度级别 - 极轻 轻 中 重 极重
+     */
+    private String strength;
 
     /**
      * 小程序用来换取openid的码
      */
     @TableField(exist = false)
     private String userCode;
+
+    /**
+     * 每个人的标准摄入
+     */
+    @TableField(exist = false)
+    private NutrientIntake standardIntake;
+
 
 }
