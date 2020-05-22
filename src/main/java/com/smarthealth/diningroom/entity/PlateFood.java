@@ -1,5 +1,6 @@
 package com.smarthealth.diningroom.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -61,4 +62,9 @@ public class PlateFood implements Serializable {
     private LocalDate mealDay;
 
 
+    /**
+     * 食物名
+     */
+    @TableField(exist = false)
+    private String foodName;
 }

@@ -16,5 +16,12 @@
     <sql id="Base_Column_List">
         plate_food_id, plate_id, food_id, weight, create_time, meal_id
     </sql>
+    <select id="getTodayMeal" resultMap="BaseResultMap">
+         SELECT p.*
+            from meal m,plate_food p
+            WHERE  m.user_id=#{userId}
+            and  m.plate_id=p.plate_id and m.meal_day=p.meal_day and p.meal_day=#{mealDay}  and m.meal_type=p.meal_type
+
+    </select>
 
 </mapper>

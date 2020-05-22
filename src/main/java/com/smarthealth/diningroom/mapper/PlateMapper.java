@@ -2,6 +2,10 @@ package com.smarthealth.diningroom.mapper;
 
 import com.smarthealth.diningroom.entity.Plate;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.smarthealth.diningroom.entity.PlateFood;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-04-29
  */
 public interface PlateMapper extends BaseMapper<Plate> {
+
 
 }

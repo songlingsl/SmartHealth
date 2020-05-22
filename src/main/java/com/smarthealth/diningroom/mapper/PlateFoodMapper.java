@@ -1,7 +1,9 @@
 package com.smarthealth.diningroom.mapper;
 
-import com.smarthealth.diningroom.entity.PlateFood;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.smarthealth.diningroom.entity.PlateFood;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface PlateFoodMapper extends BaseMapper<PlateFood> {
 
+    List<PlateFood> getTodayMeal(String userId, String mealDay);
 }

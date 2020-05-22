@@ -32,7 +32,11 @@ public class TestMeth {
 
         System.out.println(  LocalDate.now());
         System.out.println(  DateUtil.today());
+
+        System.out.println(   DateUtil.format(DateUtil.offsetDay(DateUtil.date(),-1), "yyyy-MM-dd"));
         System.out.println(   DateUtil.thisHour(true));
+        System.out.println(  "周"+DateUtil.date().dayOfWeek());
+        ;
         int hour=DateUtil.thisHour(true);
         if(0<=hour&&hour<11){
             System.out.println("早");

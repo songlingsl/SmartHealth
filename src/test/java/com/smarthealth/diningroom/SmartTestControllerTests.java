@@ -8,6 +8,7 @@ import com.smarthealth.diningroom.controller.BasicUserController;
 import com.smarthealth.diningroom.entity.BasicUser;
 import com.smarthealth.diningroom.entity.Meal;
 import com.smarthealth.diningroom.entity.Plate;
+import com.smarthealth.diningroom.service.MealService;
 import com.smarthealth.diningroom.service.PlateService;
 import com.smarthealth.diningroom.util.DelayQueueManager;
 import com.smarthealth.diningroom.vo.RecivedDishVO;
@@ -36,6 +37,8 @@ class SmartTestControllerTests {
 
     @Autowired
     private PlateService plateService;//
+    @Autowired
+    private MealService mealService;//
     @Autowired
     WxMpService wxMpService;
     @Test
@@ -114,8 +117,12 @@ class SmartTestControllerTests {
             p.setPlateUrl(plateUrl);
             plateService.save(p);
         }
+    }
 
 
+    @Test
+    public  void getTodayMeal(){
+        System.out.println(mealService.getTodayMeal("1263454513285599233"));;
 
     }
 
