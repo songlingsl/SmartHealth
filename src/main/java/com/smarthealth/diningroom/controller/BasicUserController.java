@@ -115,7 +115,7 @@ public class BasicUserController {
     public R notify(@Valid @RequestBody BasicUser user){
         String openId=user.getOpenId();
         WxMaSubscribeMessage message=new WxMaSubscribeMessage();
-        message.setTemplateId("jPMFdsrdlieFGGGCNplTqtmxCKv85B5W7RNfiBgz2rA");
+        message.setTemplateId("5EQ2a0F9vX8_exQn7dhu7AJUoBhMif_y8zaYgF23BJ4");
         message.setPage("pages/about/notify/notify");
         message.setToUser(openId);
         List<WxMaSubscribeMessage.Data> dataList=new ArrayList<>();

@@ -11,7 +11,6 @@ import com.smarthealth.diningroom.entity.Plate;
 import com.smarthealth.diningroom.service.MealService;
 import com.smarthealth.diningroom.service.PlateService;
 import com.smarthealth.diningroom.util.DelayQueueManager;
-import com.smarthealth.diningroom.vo.RecivedDishVO;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -82,11 +81,11 @@ class SmartTestControllerTests {
 
     @Test
     public  void addDishForUser() throws InterruptedException {
-        RecivedDishVO vo=new RecivedDishVO();
-        vo.setSid(164L);
-        vo.setWeight(555);
-        System.out.println(api.addDishForUser(vo));
-        Thread.sleep(1000000);
+//        RecivedDishVO vo=new RecivedDishVO();
+//        vo.setSid(164L);
+//        vo.setWeight(555);
+//        System.out.println(api.addDishForUser(vo));
+//        Thread.sleep(1000000);
 
     }
     @Test

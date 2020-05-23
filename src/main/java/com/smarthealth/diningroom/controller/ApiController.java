@@ -8,15 +8,12 @@ import com.smarthealth.diningroom.util.CommonUtil;
 import com.smarthealth.diningroom.util.DelayQueueManager;
 import com.smarthealth.diningroom.util.DictManager;
 import com.smarthealth.diningroom.vo.IntakeVO;
-import com.smarthealth.diningroom.vo.RecivedDishVO;
 import com.smarthealth.diningroom.vo.ReturnDishResultVO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -44,12 +41,12 @@ public class ApiController {
     /**
      * 为一个用户增加菜肴
      *
-     * @param recivedDishVO 返回本餐盘所有摄入量
+     * @param
      * @return
      */
-    @PostMapping("/addDishForUser")
-    public ReturnDishResultVO addDishForUser(@Valid @RequestBody RecivedDishVO recivedDishVO) {
-        String code=recivedDishVO.getCode();//code中包含plateurl
+    @GetMapping("/addDishForUser")
+    public ReturnDishResultVO addDishForUser(String sid,String weight,String code) {
+        //String code=recivedDishVO.getCode();//code中包含plateurl
         String plateUrl= code.split("/a/")[1];
         Map<String, Long> plateMap = dictManager.getPlateMap();
         Long plateId=plateMap.get(plateUrl);
@@ -57,8 +54,8 @@ public class ApiController {
 
         PlateFood plateFood = new PlateFood();
         plateFood.setPlateId(plateId);
-        plateFood.setFoodId(recivedDishVO.getSid());
-        plateFood.setWeight(recivedDishVO.getWeight());
+        plateFood.setFoodId(Long.valueOf(sid));
+        plateFood.setWeight(Integer.valueOf(weight));
         plateFood.setMealDay(LocalDate.now());
         plateFood.setMealType(CommonUtil.getDealType());
         plateFoodService.save(plateFood);//保存本次菜品重量

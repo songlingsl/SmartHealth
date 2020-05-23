@@ -40,8 +40,8 @@ logging:  #默认都是logback需要参数
       console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level - %msg -[%replace(%caller{1}){'\t|Caller.{1}0| at|\r\n', ''}]%n"
       file: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level- %msg -%logger%n" #显示行数 方法名会影响性能，caller也会影响，直接用logger
 wechat:
-  appId: wxba24429084daaaf4
-  secret: 1eac0f6f6d384922417354107868ff05
+  appId: wxc2c8acb4daf8eddf
+  secret: 025b5a858594d20cf95e3aeee6949fb8
 wx:
   mp:
     appId: wx7230b2bb6fe1aefc
