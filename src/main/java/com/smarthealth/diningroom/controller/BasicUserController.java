@@ -84,7 +84,7 @@ public class BasicUserController {
             basicUserService.save(user);
             queryUser=user;
         }
-        String key=user.getAgeGroup()+"_"+user.getGender()+"_"+user.getStrength();
+        String key=queryUser.getAgeGroup()+"_"+queryUser.getGender()+"_"+queryUser.getStrength();
         Map<String, NutrientIntake>  intakeMap=dictManager.getIntakeMap();
         queryUser.setStandardIntake(intakeMap.get(key));
         return R.ok(queryUser);

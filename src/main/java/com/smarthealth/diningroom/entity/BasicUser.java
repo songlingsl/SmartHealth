@@ -78,12 +78,12 @@ public class BasicUser implements Serializable {
     /**
      * 身高
      */
-    private Integer height;
+    private String height;
 
     /**
      * 体重
      */
-    private Integer weight;
+    private String weight;
 
     /**
      * 出生年
