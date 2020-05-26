@@ -1,8 +1,10 @@
 package com.smarthealth.diningroom.util;
 
+import lombok.Data;
+
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
-
+@Data
 public class DelayedElement implements Delayed {
     private final long delay; //延迟时间
     private final long expire;  //到期时间

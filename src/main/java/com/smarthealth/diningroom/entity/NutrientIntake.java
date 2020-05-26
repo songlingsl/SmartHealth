@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * </p>
  *
  * @author songling
- * @since 2020-05-08
+ * @since 2020-05-25
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -86,6 +86,21 @@ public class NutrientIntake implements Serializable {
     private BigDecimal fatAvg;
 
     /**
+     * 脂肪(脂肪能量占总能量的百分比)g/d小值
+     */
+    private BigDecimal fatMinGd;
+
+    /**
+     * 脂肪(脂肪能量占总能量的百分比)g/d大值
+     */
+    private BigDecimal fatMaxGd;
+
+    /**
+     * 脂肪(脂肪能量占总能量的百分比)g/d平均值
+     */
+    private BigDecimal fatAvgGd;
+
+    /**
      * 碳水化合物占能量百分数/%小值
      */
     private BigDecimal carbohyMin;
@@ -99,6 +114,21 @@ public class NutrientIntake implements Serializable {
      * 碳水化合物占能量百分数/%平均值
      */
     private BigDecimal carbohyAvg;
+
+    /**
+     * 碳水化合物占能量百分数g/d小值
+     */
+    private BigDecimal carbohyMinGd;
+
+    /**
+     * 碳水化合物占能量百分数g/d大值
+     */
+    private BigDecimal carbohyMaxGd;
+
+    /**
+     * 碳水化合物占能量百分数g/d平均值
+     */
+    private BigDecimal carbohyAvgGd;
 
     /**
      * 钙量/mg

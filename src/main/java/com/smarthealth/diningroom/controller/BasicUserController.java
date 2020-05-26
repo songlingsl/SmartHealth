@@ -116,7 +116,7 @@ public class BasicUserController {
         String openId=user.getOpenId();
         WxMaSubscribeMessage message=new WxMaSubscribeMessage();
         message.setTemplateId("5EQ2a0F9vX8_exQn7dhu7AJUoBhMif_y8zaYgF23BJ4");
-        message.setPage("pages/about/notify/notify");
+        message.setPage("/pages/canting/canting");
         message.setToUser(openId);
         List<WxMaSubscribeMessage.Data> dataList=new ArrayList<>();
         WxMaSubscribeMessage.Data data=new WxMaSubscribeMessage.Data();

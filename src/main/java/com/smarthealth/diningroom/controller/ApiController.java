@@ -56,19 +56,27 @@ public class ApiController {
         Long plateId=plateMap.get(plateUrl);
         delayQueueManager.put(plateId);//发订阅通知
 
+
         PlateFood plateFood = new PlateFood();
-        plateFood.setPlateId(plateId);
         plateFood.setFoodId(Long.valueOf(sid));
-        plateFood.setWeight(Integer.valueOf(weight));
         plateFood.setMealDay(LocalDate.now());
         plateFood.setMealType(CommonUtil.getDealType());
-        plateFoodService.save(plateFood);//保存本次菜品重量
+        plateFood.setPlateId(plateId);
+        QueryWrapper query = new QueryWrapper(plateFood);
+        PlateFood result=plateFoodService.getOne(query);
+        if(result==null){
+            plateFood.setWeight(Integer.valueOf(weight));
+            plateFoodService.save(plateFood);//保存本次菜品重量
+        }else{
+            result.setWeight(result.getWeight()+Integer.valueOf(weight));
+            plateFoodService.updateById(result);//一个菜多次载入
+        }
 
         PlateFood conditions = new PlateFood();
         conditions.setMealType(CommonUtil.getDealType());
         conditions.setMealDay(LocalDate.now());
         conditions.setPlateId(plateId);
-        QueryWrapper query = new QueryWrapper(conditions);
+        query = new QueryWrapper(conditions);
         List<PlateFood> PlateFoodList = plateFoodService.list(query);//本餐盘摄入量
          ReturnDishResultVO vo=getIntake(PlateFoodList);
         return invertPercentage(vo,plateId);
@@ -90,10 +98,10 @@ public class ApiController {
         }
         NutrientIntake standerd=intakeMap.get(key);//每餐是标准的1/3
         BigDecimal  protein=  standerd.getProtein().divide(new BigDecimal(3),4, BigDecimal.ROUND_HALF_UP);
-        BigDecimal  fat=standerd.getFatAvg().divide(new BigDecimal(3),4, BigDecimal.ROUND_HALF_UP);
+        BigDecimal  fat=standerd.getFatAvgGd().divide(new BigDecimal(3),4, BigDecimal.ROUND_HALF_UP);
         BigDecimal  energy=standerd.getEnergyCal().divide(new BigDecimal(3),4, BigDecimal.ROUND_HALF_UP);
         BigDecimal  ca=standerd.getElementCa().divide(new BigDecimal(3),4, BigDecimal.ROUND_HALF_UP);
-        BigDecimal  carbohy=standerd.getCarbohyAvg().divide(new BigDecimal(3),4, BigDecimal.ROUND_HALF_UP);
+        BigDecimal  carbohy=standerd.getCarbohyAvgGd().divide(new BigDecimal(3),4, BigDecimal.ROUND_HALF_UP);
         IntakeVO intakeVO=vo.getData();//每项得到百分比
         protein=BigDecimal.valueOf(intakeVO.getProteins()).divide(protein,4, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100));
         fat=BigDecimal.valueOf(intakeVO.getFats()).divide(fat,4, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100));
