@@ -3,7 +3,6 @@ package com.smarthealth.diningroom.controller;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.smarthealth.diningroom.entity.BasicUser;
 import com.smarthealth.diningroom.entity.Dishes;
@@ -77,6 +76,8 @@ public class BasicUserController {
         if(queryUser==null){
             user.setOpenId(openid);
             user.setAgeGroup("18-44");//默认
+            user.setWeight("50-60kg");
+            user.setHeight("165-170cm");
             user.setStrength("中");
             if(user.getGender().equals(2)){
                 user.setGender(1);
@@ -113,25 +114,25 @@ public class BasicUserController {
     @SneakyThrows
     @PostMapping("/notify")
     public R notify(@Valid @RequestBody BasicUser user){
-        String openId=user.getOpenId();
-        WxMaSubscribeMessage message=new WxMaSubscribeMessage();
-        message.setTemplateId("5EQ2a0F9vX8_exQn7dhu7AJUoBhMif_y8zaYgF23BJ4");
-        message.setPage("/pages/canting/canting");
-        message.setToUser(openId);
-        List<WxMaSubscribeMessage.Data> dataList=new ArrayList<>();
-        WxMaSubscribeMessage.Data data=new WxMaSubscribeMessage.Data();
-        data.setName("thing1");
-        data.setValue("请查看您的本餐营养摄入量");
-        dataList.add(data);
-
-        data=new WxMaSubscribeMessage.Data();
-        data.setName("thing4");
-        data.setValue("学院健康食堂");
-        dataList.add(data);
-
-        message.setData(dataList);
-        Thread.sleep(10000);
-        wxMaService.getMsgService().sendSubscribeMsg(message);
+//        String openId=user.getOpenId();
+//        WxMaSubscribeMessage message=new WxMaSubscribeMessage();
+//        message.setTemplateId("5EQ2a0F9vX8_exQn7dhu7AJUoBhMif_y8zaYgF23BJ4");
+//        message.setPage("/pages/canting/canting");
+//        message.setToUser(openId);
+//        List<WxMaSubscribeMessage.Data> dataList=new ArrayList<>();
+//        WxMaSubscribeMessage.Data data=new WxMaSubscribeMessage.Data();
+//        data.setName("thing1");
+//        data.setValue("请查看您的本餐营养摄入量");
+//        dataList.add(data);
+//
+//        data=new WxMaSubscribeMessage.Data();
+//        data.setName("thing4");
+//        data.setValue("学院健康食堂");
+//        dataList.add(data);
+//
+//        message.setData(dataList);
+//        Thread.sleep(10000);
+//        wxMaService.getMsgService().sendSubscribeMsg(message);
         return R.ok();
     }
 
@@ -224,9 +225,14 @@ public class BasicUserController {
                 vo.setEnergy(dish.getEnergyCal().multiply(weight).intValue());
                 vo.setFats(dish.getFat().multiply(weight).intValue());
                 vo.setProteins(dish.getProtein().multiply(weight).intValue());
+                vo.setWeight(weight.intValue());
+                vo.setFoodId(dish.getId());
                 list.add(vo);
             }
 
+        }
+        if(list.isEmpty()){
+            return R.failed();
         }
         return R.ok(list);
     }

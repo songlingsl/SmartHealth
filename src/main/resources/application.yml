@@ -44,6 +44,8 @@ wechat:
   secret: 025b5a858594d20cf95e3aeee6949fb8
 wx:
   mp:
-    appId: wx7230b2bb6fe1aefc
-    secret: 56a1d0539690883741dbe84240793c3f
+#    appId: wx7230b2bb6fe1aefc
+#    secret: 56a1d0539690883741dbe84240793c3f
+    appId: wxf4138bf72d6d1763
+    secret: ea7a87bd0acc176b0ace1fa659a2e566
 

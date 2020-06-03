@@ -74,7 +74,7 @@ public class DelayQueueManager implements CommandLineRunner {
     }
 
     public void put(Long plateId) {
-        DelayedElement element = new DelayedElement(10000,plateId);//3分钟3*60000
+        DelayedElement element = new DelayedElement(60000,plateId);//1分钟
         if(delayQueue.contains(element)){
             delayQueue.remove(element);
             log.info("有相同plateId移除");

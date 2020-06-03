@@ -88,11 +88,12 @@ public class DictManager implements CommandLineRunner {
             d.setProtein(f.getProtein().divide(new BigDecimal(100)));
             d.setFat(f.getFat().divide(new BigDecimal(100)));
             d.setCarbohy(f.getCarbohy().divide(new BigDecimal(100)));
-            System.out.println(name+f.getElementCa());
             d.setElementCa(f.getElementCa().divide(new BigDecimal(100)));
-
             d.setEnergyCal(f.getEnergyCal().divide(new BigDecimal(100)));
+            d.setId(   f.getId().longValue());
+            d.setName(f.getName());
             dishesNameMap.put(f.getName(),d);
+            dishesMap.put(d.getId(),d);
             DicLibrary.insert(DicLibrary.DEFAULT, f.getName());
         }
         log.info("简单食物字典表初始化完毕");
