@@ -24,4 +24,12 @@
 
     </select>
 
+    <select id="getSevenDayMeal" resultMap="BaseResultMap">
+         SELECT p.*
+            from meal m,plate_food p
+            WHERE  m.user_id=#{userId}
+            and  m.plate_id=p.plate_id and m.meal_day=p.meal_day and p.meal_day <![CDATA[>=]]>#{preDay}  and p.meal_day <![CDATA[<=]]>#{mealDay}   and m.meal_type=p.meal_type
+
+    </select>
+
 </mapper>

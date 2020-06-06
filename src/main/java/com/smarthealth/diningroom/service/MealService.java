@@ -21,4 +21,6 @@ public interface MealService extends IService<Meal> {
    public  IntakeVO getTodayAllIntakeByUserId(String userId);
 
     Map<String,IntakeVO> getWeekIntakeByUserId(String userId);
+
+    IntakeVO getSevenDayIntakeByUserId(String userId);
 }

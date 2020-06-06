@@ -45,7 +45,7 @@ public class MealController {
         return R.ok(mealService.getTodayMeal(userId));
     }
     /**
-     * 获取用户当天就餐数据总计，画雷达图
+     * 获取用户当天就餐数据总计
      * @param userId
      * @return
      */
@@ -53,11 +53,19 @@ public class MealController {
     public R getTodayAllIntakeByUserId(String userId){
         return R.ok(mealService.getTodayAllIntakeByUserId(userId));
     }
-
+    /**
+     * 获取7天就餐数据总计
+     * @param userId
+     * @return
+     */
     @GetMapping("/getWeekIntakeByUserId")
     public R getWeekIntakeByUserId(String userId){
-        return R.ok(mealService.getWeekIntakeByUserId(userId));
+        return R.ok(mealService.getSevenDayIntakeByUserId(userId));
     }
+
+//    public R getWeekIntakeByUserId(String userId){此方法是获取七天数据的折线图
+//        return R.ok(mealService.getWeekIntakeByUserId(userId));
+//    }
 
     @SneakyThrows
     @PostMapping("/injectTodayIntake")

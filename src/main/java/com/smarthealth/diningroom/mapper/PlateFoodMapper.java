@@ -16,4 +16,6 @@ import java.util.List;
 public interface PlateFoodMapper extends BaseMapper<PlateFood> {
 
     List<PlateFood> getTodayMeal(String userId, String mealDay);
+
+    List<PlateFood> getSevenDayMeal(String userId, String preDay, String mealDay);
 }

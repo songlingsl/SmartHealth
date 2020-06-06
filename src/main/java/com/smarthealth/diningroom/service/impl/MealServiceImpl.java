@@ -87,19 +87,16 @@ public class MealServiceImpl extends ServiceImpl<MealMapper, Meal> implements Me
         return  vo;
     }
 
+
+
     @Override
-    public Map<String, IntakeVO> getWeekIntakeByUserId(String userId) {
-        Map<String, IntakeVO> rmap=new LinkedHashMap<>();
-        for(int i=-6;i<=0;i++){
-            DateTime dateTime= DateUtil.offsetDay(DateUtil.date(),i);
-            String mealDay=DateUtil.format(dateTime, "yyyy-MM-dd");
-            String keyDay=DateUtil.format(dateTime, "MM-dd");
-            //String week=dateTime.dayOfWeek()-1+"";
-            List<PlateFood> list= plateFoodMapper.getTodayMeal(userId,mealDay);
-            IntakeVO vo=dealDailyIntake(list);
-            rmap.put(keyDay,vo);
-        }
-        return rmap;
+    public IntakeVO getSevenDayIntakeByUserId(String userId) {
+        String mealDay= LocalDate.now().toString();
+        DateTime dateTime= DateUtil.offsetDay(DateUtil.date(),-6);//六天前
+        String preDay=DateUtil.format(dateTime, "yyyy-MM-dd");
+        List<PlateFood> list= plateFoodMapper.getSevenDayMeal(userId,preDay,mealDay);
+        IntakeVO vo=dealDailyIntake(list);
+        return  vo;
     }
 
     private IntakeVO dealDailyIntake(List<PlateFood> list) {
@@ -131,5 +128,22 @@ public class MealServiceImpl extends ServiceImpl<MealMapper, Meal> implements Me
         per.setProteins(per.getProteins()+dishes.getProtein().multiply(weight).intValue());
         per.setCarbohydrates(per.getCarbohydrates()+dishes.getCarbohy().multiply(weight).intValue());
         per.setCalcium(per.getCalcium()+dishes.getElementCa().multiply(weight).intValue());
+    }
+
+
+
+    @Override
+    public Map<String, IntakeVO> getWeekIntakeByUserId(String userId) {
+        Map<String, IntakeVO> rmap=new LinkedHashMap<>();
+        for(int i=-6;i<=0;i++){
+            DateTime dateTime= DateUtil.offsetDay(DateUtil.date(),i);
+            String mealDay=DateUtil.format(dateTime, "yyyy-MM-dd");
+            String keyDay=DateUtil.format(dateTime, "MM-dd");
+            //String week=dateTime.dayOfWeek()-1+"";
+            List<PlateFood> list= plateFoodMapper.getTodayMeal(userId,mealDay);
+            IntakeVO vo=dealDailyIntake(list);
+            rmap.put(keyDay,vo);
+        }
+        return rmap;
     }
 }
